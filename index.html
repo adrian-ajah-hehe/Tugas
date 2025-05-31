@@ -93,6 +93,9 @@
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
     .product:hover {
       transform: scale(1.02);
@@ -104,6 +107,7 @@
     }
     .product-info {
       padding: 1rem;
+      text-align: center;
     }
     .product-info h2 {
       font-size: 1.3rem;
@@ -121,6 +125,9 @@
       border-radius: 5px;
       font-size: 1rem;
       cursor: pointer;
+      display: block;
+      margin: 0 auto;
+      width: fit-content;
     }
     .product-info button:hover {
       background-color: #fb8c00;
@@ -131,7 +138,7 @@
     }
     .contact a {
       display: inline-block;
-      background-color: #25d366;
+      background-color: #2196f3;
       color: white;
       padding: 0.75rem 1.5rem;
       border-radius: 5px;
@@ -140,7 +147,7 @@
       margin: 0.5rem;
     }
     .contact a:hover {
-      background-color: #1ebe57;
+      background-color: #1e88e5;
     }
     footer {
       background-color: #ff9800;
@@ -154,15 +161,16 @@
       justify-content: center;
       margin-bottom: 1rem;
     }
-    footer .social-icons img {
-      width: 22px;
-      height: 22px;
+    footer .social-icons a img {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="cart-icon">
+    <div class="cart-icon" title="Lihat Keranjang">
       <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart">
       <div class="cart-count" id="cart-count">0</div>
     </div>
@@ -183,9 +191,9 @@
   </header>
 
   <nav>
-  <a href="#produk">Produk</a>
-  <a href="#sosialmedia">Sosial Media</a>
-</nav>
+    <a href="#produk">Produk</a>
+    <a href="#sosialmedia">Sosial Media</a>
+  </nav>
 
   <main class="container" id="produk">
     <div class="product">
@@ -223,19 +231,20 @@
   </main>
 
   <section class="contact" id="sosialmedia">
-  <a href="https://www.google.com/maps?q=Jl.+Raya+Cikampek-Parakan,+Cikampek+Kota,+Kec.+Cikampek,+Karawang,+Jawa+Barat+41373" 
-     target="_blank" style="background-color:#2196f3;">Alamat Produksi</a>
-</section>
+    <a href="https://www.google.com/maps?q=Jl.+Raya+Cikampek-Parakan,+Cikampek+Kota,+Kec.+Cikampek,+Karawang,+Jawa+Barat+41373" 
+       target="_blank" style="background-color:#2196f3;">Alamat Produksi</a>
+  </section>
 
   <footer>
-      <div class="social-icons">
-  <a href="https://instagram.com/starsandwich1ch" target="_blank">
-  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="24" height="24">
-</a>
-  <a href="https://wa.me/6285770903556" target="_blank">
-    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
-  </a>
-</div>
+    <div class="social-icons">
+      <a href="https://instagram.com/starsandwich1ch" target="_blank" rel="noopener">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" />
+      </a>
+      <a href="https://wa.me/6285770903556" target="_blank" rel="noopener">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
+      </a>
+    </div>
+    <p>&copy; 2025 Star Sandwich. All rights reserved.</p>
   </footer>
 
   <script>
@@ -254,9 +263,10 @@
       list.innerHTML = "";
       cartItems.forEach((item, index) => {
         const li = document.createElement("li");
-        li.textContent = item;
+        li.textContent = item + " ";
         const delBtn = document.createElement("button");
         delBtn.textContent = "Hapus";
+        delBtn.style.marginLeft = "10px";
         delBtn.onclick = () => hapusItem(index);
         li.appendChild(delBtn);
         list.appendChild(li);
@@ -269,9 +279,9 @@
     }
 
     function pilihMetode(checkbox) {
-      const checkboxes = document.querySelectorAll('#payment-methods input[type="checkbox"]');
+      const checkboxes = document.querySelectorAll('input[name="payment"]');
       checkboxes.forEach(cb => {
-        if (cb !== checkbox) cb.checked = false;
+        if(cb !== checkbox) cb.checked = false;
       });
       metodePembayaran = checkbox.checked ? checkbox.value : "";
     }
@@ -294,7 +304,7 @@
 
     document.querySelector(".cart-icon").addEventListener("click", () => {
       const detailBox = document.getElementById("cart-details");
-      detailBox.style.display = detailBox.style.display === "none" ? "block" : "none";
+      detailBox.style.display = detailBox.style.display === "none" || detailBox.style.display === "" ? "block" : "none";
     });
 
     document.addEventListener("click", function (e) {
