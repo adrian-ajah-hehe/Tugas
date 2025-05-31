@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Star Sandwich - Jualan Online</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+      color: #333;
+      transition: background 0.5s ease;
+    }
+    header {
+      background-color: #ff9800;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      position: relative;
+    }
+    header h1 {
+      font-size: 2rem;
+    }
+    header p {
+      font-size: 1rem;
+    }
+    .cart-icon {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .cart-icon img {
+      width: 24px;
+      height: 24px;
+    }
+    .cart-count {
+      margin-left: 5px;
+      font-weight: bold;
+      background: white;
+      padding: 2px 6px;
+      border-radius: 50%;
+      color: #ff9800;
+      font-size: 0.8rem;
+    }
+    .cart-details {
+      position: absolute;
+      right: 1rem;
+      top: 100%;
+      background: white;
+      color: #333;
+      padding: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-radius: 10px;
+      z-index: 10;
+      width: 90%;
+      max-width: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+      display: none;
+    }
+    nav {
+      background-color: #ffe082;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 0.8rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: #333;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .product {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+    }
+    .product:hover {
+      transform: scale(1.02);
+    }
+    .product img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .product-info {
+      padding: 1rem;
+    }
+    .product-info h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    .product-info p {
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+    .product-info button {
+      background-color: #ff9800;
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .product-info button:hover {
+      background-color: #fb8c00;
+    }
+    .contact {
+      text-align: center;
+      padding: 2rem;
+    }
+    .contact a {
+      display: inline-block;
+      background-color: #25d366;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0.5rem;
+    }
+    .contact a:hover {
+      background-color: #1ebe57;
+    }
+    footer {
+      background-color: #ff9800;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    footer .social-icons {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    footer .social-icons img {
+      width: 22px;
+      height: 22px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="cart-icon">
+      <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Cart">
+      <div class="cart-count" id="cart-count">0</div>
+    </div>
+    <div class="cart-details" id="cart-details">
+      <h3>Keranjang</h3>
+      <ul id="cart-items"></ul>
+      <div style="margin-top: 1rem;">
+        <h4>Metode Pembayaran:</h4>
+        <div id="payment-methods">
+          <label><input type="checkbox" name="payment" value="COD" onclick="pilihMetode(this)"> COD</label><br>
+          <label><input type="checkbox" name="payment" value="Ambil Sendiri" onclick="pilihMetode(this)"> Ambil Sendiri</label>
+        </div>
+        <button onclick="checkout()" style="margin-top: 1rem; background-color:#25d366; color:white; border:none; padding:0.5rem 1rem; border-radius:5px; cursor:pointer;">Checkout</button>
+      </div>
+    </div>
+    <h1>Star Sandwich</h1>
+    <p>Sandwich segar, lezat, dan siap dinikmati kapan saja!</p>
+  </header>
+
+  <nav>
+  <a href="#produk">Produk</a>
+  <a href="#sosialmedia">Sosial Media</a>
+</nav>
+
+  <main class="container" id="produk">
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlIpCftLKz18Ao7DHBNPhGGgOQqXnUHnTqPQ&s" alt="Sandwich Anggur" />
+      <div class="product-info">
+        <h2>Sandwich Anggur</h2>
+        <p>Daging buah anggur yang lembut, segar, dan manis memanjakan lidah di setiap gigitannya.</p>
+        <button onclick="pesan('Sandwich Anggur')">Pesan Sekarang</button>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWN4TiW1Fca3eF12kmqfQUdWChANVFQVe4Xg&s" alt="Sandwich Pisang" />
+      <div class="product-info">
+        <h2>Sandwich Pisang</h2>
+        <p>Sandwich pisang dengan rasa manis alami dan tekstur lembut siap memanjakan harimu!</p>
+        <button onclick="pesan('Sandwich Pisang')">Pesan Sekarang</button>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQDqEdpFUcxvJsGsoEB9B34eSwsJ_CX2OOlQ&s" alt="Sandwich Strawberry" />
+      <div class="product-info">
+        <h2>Sandwich Strawberry</h2>
+        <p>Potongan stroberi yang juicy dan harum terselip cantik dalam roti lembut, menciptakan rasa yang menggoda.</p>
+        <button onclick="pesan('Sandwich Strawberry')">Pesan Sekarang</button>
+      </div>
+    </div>
+    <div class="product">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc14Uhdzbcn1HHi1IEX2gc79aJUZOFdSisYg&s" alt="Sandwich MIX" />
+      <div class="product-info">
+        <h2>Sandwich MIX</h2>
+        <p>Gak bisa milih? Cobain semuanya di Sandwich Mix! Solusi buat kamu yang suka semua rasa.</p>
+        <button onclick="pesan('Sandwich MIX')">Pesan Sekarang</button>
+      </div>
+    </div>
+  </main>
+
+  <section class="contact" id="sosialmedia">
+  <a href="https://www.google.com/maps?q=Jl.+Raya+Cikampek-Parakan,+Cikampek+Kota,+Kec.+Cikampek,+Karawang,+Jawa+Barat+41373" 
+     target="_blank" style="background-color:#2196f3;">Alamat Produksi</a>
+</section>
+
+  <footer>
+      <div class="social-icons">
+  <a href="https://instagram.com/starsandwich1ch" target="_blank">
+  <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" width="24" height="24">
+</a>
+  <a href="https://wa.me/6285770903556" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+  </a>
+</div>
+  </footer>
+
+  <script>
+    let cartItems = [];
+    let metodePembayaran = "";
+
+    function pesan(namaProduk) {
+      cartItems.push(namaProduk);
+      updateCartUI();
+      alert("Anda telah menambahkan " + namaProduk + " ke keranjang.");
+    }
+
+    function updateCartUI() {
+      document.getElementById("cart-count").innerText = cartItems.length;
+      const list = document.getElementById("cart-items");
+      list.innerHTML = "";
+      cartItems.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Hapus";
+        delBtn.onclick = () => hapusItem(index);
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function hapusItem(index) {
+      cartItems.splice(index, 1);
+      updateCartUI();
+    }
+
+    function pilihMetode(checkbox) {
+      const checkboxes = document.querySelectorAll('#payment-methods input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        if (cb !== checkbox) cb.checked = false;
+      });
+      metodePembayaran = checkbox.checked ? checkbox.value : "";
+    }
+
+    function checkout() {
+      if (cartItems.length === 0) {
+        alert("Keranjang masih kosong!");
+        return;
+      }
+      if (!metodePembayaran) {
+        alert("Pilih metode pembayaran terlebih dahulu.");
+        return;
+      }
+      const hargaSatuan = 7000;
+      const total = cartItems.length * hargaSatuan;
+      const pesan = `Halo, saya ingin memesan:\n\n${cartItems.map(item => `- ${item}`).join("\n")}\n\nTotal: Rp${total}\nMetode Pembayaran: ${metodePembayaran}\n\nTerima kasih!`;
+      const encodedMessage = encodeURIComponent(pesan);
+      window.open(`https://wa.me/6285770903556?text=${encodedMessage}`, "_blank");
+    }
+
+    document.querySelector(".cart-icon").addEventListener("click", () => {
+      const detailBox = document.getElementById("cart-details");
+      detailBox.style.display = detailBox.style.display === "none" ? "block" : "none";
+    });
+
+    document.addEventListener("click", function (e) {
+      const cartIcon = document.querySelector(".cart-icon");
+      const cartDetails = document.getElementById("cart-details");
+      if (!cartDetails.contains(e.target) && !cartIcon.contains(e.target)) {
+        cartDetails.style.display = "none";
+      }
+    });
+  </script>
+</body>
+  </html>
